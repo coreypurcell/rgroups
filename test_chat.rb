@@ -8,16 +8,18 @@ import org.jgroups.JChannel
 
 class SimpleChat < org.jgroups.ReceiverAdapter
   def initialize
-    @@channel = ''
-    @@user_name = ENV['USER']
+    @channel = ''
+    @user_name = ENV['USER']
+    @state = []
   end
 
   def start
-    @@channel = JChannel.new
-    @@channel.setReceiver(self)
-    @@channel.connect('ChatCluster')
+    @channel = JChannel.new
+    @channel.setReceiver(self)
+    @channel.connect('ChatCluster')
+    @channel.getState(nil, 10000)
     eventLoop
-    @@channel.close
+    @channel.close
   end
 
   def eventLoop
@@ -28,14 +30,42 @@ class SimpleChat < org.jgroups.ReceiverAdapter
         if input =~ /^quit|^exit/
           break
         end
-        input = "[#{@@user_name}]" + input
+        input = "[#{@user_name}]" + input
         puts "-- input:  #{input}"
         msg = org.jgroups.Message.new(nil,nil,input)
-        @@channel.send(msg)
+        @channel.send(msg)
       rescue Exception => e
         puts e.message
         puts e.backtrace.inspect
       end
+    end
+  end
+
+  def getState
+    puts "getting state"
+    @state.synchronized do
+      begin
+        org.jgroups.Util.objectToByteBuffer @state
+      rescue Exception => e
+        puts e.message
+        puts e.backtrace.inspect
+        nil
+      end
+    end
+  end
+
+  def setState(new_state)
+    begin
+      list = org.jgroups.Util.objectFromByteBuffer @state
+      @state.synchronized do
+        @state = []
+        @state = list
+      end
+      puts "received state (#{list.size} messages in chat history):"
+      list.each {|str| puts str}
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace.inspect
     end
   end
 
