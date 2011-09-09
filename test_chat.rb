@@ -1,6 +1,8 @@
 # Straight port from docs
 # http://www.jgroups.org/tutorial/html/ch02.html
 
+require 'rubygems'
+require 'ruby-debug'
 require 'java'
 require 'jgroups-2.12.1.Final.jar'
 
@@ -10,7 +12,7 @@ class SimpleChat < org.jgroups.ReceiverAdapter
   def initialize
     @channel = ''
     @user_name = ENV['USER']
-    @state = []
+    @state = "" 
   end
 
   def start
@@ -36,36 +38,31 @@ class SimpleChat < org.jgroups.ReceiverAdapter
         @channel.send(msg)
       rescue Exception => e
         puts e.message
-        puts e.backtrace.inspect
+        puts e.backtrace
       end
     end
   end
 
   def getState
-    puts "getting state"
-    @state.synchronized do
-      begin
-        org.jgroups.Util.objectToByteBuffer @state
-      rescue Exception => e
-        puts e.message
-        puts e.backtrace.inspect
-        nil
-      end
+    begin
+      @state.to_java_bytes
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace
+      nil
     end
   end
 
   def setState(new_state)
     begin
-      list = org.jgroups.Util.objectFromByteBuffer @state
-      @state.synchronized do
-        @state = []
-        @state = list
-      end
-      puts "received state (#{list.size} messages in chat history):"
-      list.each {|str| puts str}
+      list = String.from_java_bytes new_state
+      @state = list
+      puts "received state (#{list.split("\n").size} messages in chat history):"
+      puts list
     rescue Exception => e
       puts e.message
-      puts e.backtrace.inspect
+      puts "------------"
+      puts e.backtrace
     end
   end
 
@@ -74,7 +71,9 @@ class SimpleChat < org.jgroups.ReceiverAdapter
   end
 
   def receive(msg)
-    puts "#{msg.getSrc}: #{msg.getObject}"
+    line = "#{msg.getSrc}: #{msg.getObject}"
+    puts line
+    @state << line
   end
 end
 
