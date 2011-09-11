@@ -10,11 +10,11 @@ class SimpleChat
   end
 
   def start
-    @channel = RGroups::Channel.new do |message|
-      line = "#{message.getSrc}: #{message.getObject}"
+    @channel = RGroups::Channel.new 
+    @channel.connect('ChatCluster') do |message|
+      line = "#{message.source}: #{message}"
       puts line
     end
-    @channel.connect('ChatCluster')
     eventLoop
     @channel.close
   end
@@ -28,7 +28,6 @@ class SimpleChat
           break
         end
         input = "[#{@user_name}]" + input
-        puts "-- input:  #{input}"
         @channel.send(input)
       rescue Exception => e
         puts e.message
