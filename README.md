@@ -45,6 +45,6 @@ Check the examples to see an application using the library
 
 
 Features I'd like to add:
-  - More examples
-  - Use JGroups shared state facilities
+  * More examples
+  * use JGroups shared state facilities
 
