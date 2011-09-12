@@ -2,19 +2,25 @@ $LOAD_PATH.unshift './lib'
 require 'rgroups.rb'
 
 class SimpleChat
+
   def initialize
     @channel = ''
     @user_name = ENV['USER']
   end
 
   def start
-    @channel = RGroups::Channel.new 
-    @channel.connect('ChatCluster') do |message|
-      line = "#{message.source}: #{message}"
-      puts line
+    begin
+      @channel = RGroups::Channel.new 
+      @channel.connect('ChatCluster') do |message|
+        line = "#{message.source}: #{message}"
+        puts line
+      end
+      
+      eventLoop
+    ensure
+      puts "closing channel"
+      @channel.close
     end
-    eventLoop
-    @channel.close
   end
 
   def eventLoop
@@ -26,7 +32,9 @@ class SimpleChat
           break
         end
         input = "[#{@user_name}]" + input
+
         @channel.send(input)
+
       rescue Exception => e
         puts e.message
         puts e.backtrace
