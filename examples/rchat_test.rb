@@ -14,6 +14,9 @@ class SimpleChat
       line = "#{message.source}: #{message}"
       puts line
     end
+    @channel.bind do |state|
+      puts "state: #{state}"
+    end
     eventLoop
     @channel.close
   end

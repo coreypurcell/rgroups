@@ -3,6 +3,7 @@ module RGroups
 
     def initialize
       @blk = nil
+      @state = nil
     end
 
     def register_receiver(blk)
@@ -17,12 +18,17 @@ module RGroups
       puts "** view: #{new_view}"
     end
 
-    def setState(new_state)
+    def register_state(blk)
+      @state_blk = blk
+    end
 
+    def setState(new_state)
+      @state = String.from_java_bytes new_state
+      @state_blk.call(new_state)
     end
 
     def getState
-
+      @state.to_java_bytes
     end
 
   end

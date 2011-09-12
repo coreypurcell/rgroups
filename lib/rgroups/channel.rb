@@ -25,9 +25,9 @@ module RGroups
       super(message)
     end
 
-    # def bind(state, &blk)
-    #   @receiver
-    # end
+    def bind(&blk)
+      @receiver.register_state(blk)
+    end
 
   end
 end
