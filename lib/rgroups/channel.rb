@@ -1,38 +1,28 @@
 require 'forwardable'
 
 module RGroups
-  class Channel < org.jgroups.JChannel
-
-    extend Forwardable
+  class Channel
 
     alias_method :old_send, :send
 
-    def_delegators :receiver, :state, :state=
-
     def initialize
-      super
+      @jchannel = org.jgroups.JChannel.new
       @receiver = Receiver.new
-      set_receiver(@receiver)
+      @jchannel.set_receiver(@receiver)
     end
 
     def connect(cluster, &blk)
-      # calling super(cluster) produces an error in the CodeGenUtils java class
-      # -- so hacking around it
-      # oddly just renaming my method to rconnect and calling the super's connect
-      # method works just fine 
-      org.jgroups.JChannel.instance_method(:connect).bind(self).call(cluster)
+      @jchannel.connect(cluster)
       @receiver.register_receiver(blk)
     end
 
     def send(msg, options={})
-      destination = options[:destination]
-      source = options[:source]
-      message = Message.new(destination,source,msg)
-      super(message)
+      message = Message.new(msg, options)
+      @jchannel.send(message.jmessage)
     end
 
-    def bind(&blk)
-      @receiver.register_state(blk)
+    def close
+      @jchannel.close
     end
 
   end

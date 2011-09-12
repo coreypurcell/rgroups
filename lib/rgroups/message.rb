@@ -1,15 +1,32 @@
 module RGroups
-  class Message < org.jgroups.Message
+  class Message
 
-    alias_method :source, :get_src
-    alias_method :destination, :get_dest
-    alias_method :data, :get_object
+    attr_accessor :jmessage
 
-    def initialize(dest, src, msg)
+    def initialize(message=nil, options={})
+      if message
+        @jmessage = org.jgroups.Message.new(options[:destination],
+                                            options[:source],
+                                            message)
+      else
+        @jmessage = nil
+      end
+    end
+
+    def source
+      @jmessage.get_src
+    end
+
+    def destination
+      @jmessage.get_dest
+    end
+
+    def data
+      @jmessage.get_object
     end
 
     def to_s
-      get_object.to_s
+      @jmessage.get_object.to_s
     end
 
   end
