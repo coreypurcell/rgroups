@@ -1,8 +1,6 @@
 # Straight port from docs
 # http://www.jgroups.org/tutorial/html/ch02.html
 
-require 'rubygems'
-require 'ruby-debug'
 require 'java'
 require 'jgroups-2.12.1.Final.jar'
 

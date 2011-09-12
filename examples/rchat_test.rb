@@ -1,6 +1,5 @@
-require 'java'
-require 'jgroups-2.12.1.Final.jar'
-require 'lib/rgroups.rb'
+$LOAD_PATH.unshift './lib'
+require 'rgroups.rb'
 
 class SimpleChat
   def initialize
