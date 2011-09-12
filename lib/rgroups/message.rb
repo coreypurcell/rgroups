@@ -9,7 +9,7 @@ module RGroups
     end
 
     def to_s
-      data.to_s
+      get_object.to_s
     end
 
   end

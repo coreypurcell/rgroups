@@ -10,3 +10,4 @@
 TODO:
 - Add logging features to the library for views etc.
 - Sharing state
+- Automatically close the channel on exit (like a file)

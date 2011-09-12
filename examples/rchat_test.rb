@@ -11,7 +11,7 @@ class SimpleChat
   def start
     @channel = RGroups::Channel.new 
     @channel.connect('ChatCluster') do |message|
-      line = "#{message.source}: #{message}"
+      line = "#{message.get_src}: #{message}"
       puts line
     end
     @channel.bind do |state|
@@ -31,6 +31,7 @@ class SimpleChat
         end
         input = "[#{@user_name}]" + input
         @channel.send(input)
+        @channel.state = @channel.state + input
       rescue Exception => e
         puts e.message
         puts e.backtrace
