@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift './lib'
-require 'rgroups.rb'
+require 'rgroups'
 
 class SimpleChat
 

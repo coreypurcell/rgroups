@@ -1,5 +1,5 @@
 require 'java'
-require 'jgroups-2.12.1.Final.jar'
+require_relative '../vendor/jgroups-2.12.1.Final.jar'
 require "rgroups/version"
 require "rgroups/channel"
 require "rgroups/message"

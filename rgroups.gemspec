@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = RGroups::VERSION
   s.authors     = ["Corey Purcell"]
   s.email       = ["corey.purcell@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/coreypurcell/s9-e1"
   s.summary     = %q{A Ruby wrapper for the JGroups Java Toolkit}
   s.description = %q{Using JRuby to provide a ruby interface to the JGroups toolkit.}
 
@@ -20,5 +20,4 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
 end
