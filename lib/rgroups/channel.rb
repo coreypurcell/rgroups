@@ -1,7 +1,13 @@
+require 'forwardable'
+
 module RGroups
   class Channel < org.jgroups.JChannel
 
+    extend Forwardable
+
     alias_method :old_send, :send
+
+    def_delegators :receiver, :state, :state=
 
     def initialize
       super

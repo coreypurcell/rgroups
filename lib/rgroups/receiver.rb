@@ -1,6 +1,8 @@
 module RGroups
   class Receiver < org.jgroups.ReceiverAdapter
 
+    attr_accessor :state
+
     def initialize
       @blk = nil
       @state = nil
