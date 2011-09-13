@@ -1,3 +1,6 @@
+# ReceiverAdapters are what actually receive messages from the cluster
+#
+
 module RGroups
   class Receiver < org.jgroups.ReceiverAdapter
 

@@ -1,3 +1,6 @@
+# Channel uses JChannel to connect to the cluster and send messages
+#
+
 require 'forwardable'
 
 module RGroups

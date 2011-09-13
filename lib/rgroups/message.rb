@@ -1,3 +1,6 @@
+# jgroups.Messages get passed through the cluster
+# Wrap that in our Message class for convience
+
 module RGroups
   class Message
 
