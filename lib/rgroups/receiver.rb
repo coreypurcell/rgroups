@@ -18,7 +18,7 @@ module RGroups
       @blk.call(msg)
     end
 
-    def viewAccepted(new_view)
+    def view_accepted(new_view)
       RGroups.logger.info "** view: #{new_view}"
     end
 
