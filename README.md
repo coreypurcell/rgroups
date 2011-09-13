@@ -7,6 +7,12 @@ This wrapper will be attempt to expose some of the basic but hopefully
 useful parts of the API in a ruby fashion. Starting with the ability to
 send messages to the cluster. 
 
+Watch out for network configuration errors. If you see errors stating
+that the network is down, then you likely don't have multicasting 
+setup correctly on network, or you are on a WIFI network. See the
+[JGroups site](http://www.jgroups.org/tutorial/html/ch01.html#d0e142)
+for information on how to run without a network.
+
 Let's see some code:
     
     # make a channel object and connect to the cluster
