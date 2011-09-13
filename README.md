@@ -8,10 +8,6 @@ useful parts of the API in a ruby fashion. Starting with the ability to
 send messages to the cluster. 
 
 Let's see some code:
-
-    gem install rgroups
-    
-    require 'rgroups'
     
     # make a channel object and connect to the cluster
     channel = RGroups::Channel.new
