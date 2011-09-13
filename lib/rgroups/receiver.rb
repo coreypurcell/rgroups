@@ -18,7 +18,8 @@ module RGroups
       @blk.call(msg)
     end
 
-    def view_accepted(new_view)
+    # seems I need camel case here to override superclass
+    def viewAccepted(new_view)
       RGroups.logger.info "** view: #{new_view}"
     end
 
