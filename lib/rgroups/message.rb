@@ -7,13 +7,17 @@ module RGroups
     attr_accessor :jmessage
 
     def initialize(message=nil, options={})
-      if message
+      if message.kind_of? org.jgroups.Message
+        @jmessage = message
+      else
         @jmessage = org.jgroups.Message.new(options[:destination],
                                             options[:source],
                                             message)
-      else
-        @jmessage = nil
       end
+    end
+
+    def self.from_jmessage(jmessage)
+      self.new.jmessage = jmessage
     end
 
     def source

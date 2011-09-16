@@ -5,7 +5,9 @@ module RGroups
   class Receiver < org.jgroups.ReceiverAdapter
 
     def initialize
-      @blk = nil
+      @blk = lambda do |msg|
+        RGroups.logger.warn "** No Receive Callback was registered **" 
+      end
     end
 
     def register_receiver(&blk)
@@ -13,8 +15,7 @@ module RGroups
     end
 
     def receive(jmessage)
-      msg =  Message.new
-      msg.jmessage = jmessage
+      msg = Message.from_jmessage(jemssage)
       @blk.call(msg)
     end
 
