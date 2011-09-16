@@ -18,22 +18,16 @@ module RGroups
     def connect(cluster, &blk)
       @jchannel.connect(cluster)
       instance_exec(&blk)
-      close
+      @jchannel.close
     end
 
     def receiver(&blk)
       @receiver.register_receiver(&blk)
-      @jchannel.set_receiver(@receiver)
     end
-
 
     def send_message(msg, options={})
       message = Message.new(msg, options)
       @jchannel.send(message.jmessage)
-    end
-
-    def close
-      @jchannel.close
     end
 
   end
