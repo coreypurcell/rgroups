@@ -4,20 +4,30 @@
 module RGroups
   class Channel
 
-    alias_method :old_send, :send
-
     def initialize
       @jchannel = org.jgroups.JChannel.new
       @receiver = Receiver.new
       @jchannel.set_receiver(@receiver)
     end
 
-    def connect(cluster, &blk)
-      @jchannel.connect(cluster)
-      @receiver.register_receiver(blk)
+    def self.connect(cluster, &blk)
+      channel = Channel.new
+      channel.connect(cluster, &blk)
     end
 
-    def send(msg, options={})
+    def connect(cluster, &blk)
+      @jchannel.connect(cluster)
+      instance_exec(&blk)
+      close
+    end
+
+    def receiver(&blk)
+      @receiver.register_receiver(&blk)
+      @jchannel.set_receiver(@receiver)
+    end
+
+
+    def send_message(msg, options={})
       message = Message.new(msg, options)
       @jchannel.send(message.jmessage)
     end

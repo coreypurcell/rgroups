@@ -8,7 +8,7 @@ module RGroups
       @blk = nil
     end
 
-    def register_receiver(blk)
+    def register_receiver(&blk)
       @blk = blk
     end
 

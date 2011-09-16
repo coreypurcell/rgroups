@@ -1,50 +1,38 @@
 $LOAD_PATH.unshift './lib'
 require 'rgroups'
+begin
+  require 'ffi-ncurses'
+  require 'highline/import'
+rescue LoadError
+  puts "Please load the highline and ffi-ncurses gems"
+  puts " ** jruby -S gem install ffi-ncurses highline"
+  exit
+end
 
 class SimpleChat
 
-  def initialize
-    @channel = ''
-    @user_name = ENV['USER']
-  end
-
-  def start
-    begin
-      @channel = RGroups::Channel.new 
-      @channel.connect('ChatCluster') do |message|
+  def self.start
+    RGroups::Channel.connect('ChatCluster') do
+      receiver do |message|
         line = "#{message.source}: #{message}"
         puts line
       end
-      
-      eventLoop
-    ensure
-      puts "closing channel"
-      @channel.close
-    end
-  end
 
-  def eventLoop
-    loop do
-      begin
-        print "> "
-        input = gets
-        if input =~ /^quit|^exit/
+      say("Welcome to SimpleChat")
+
+      loop do
+        msg = ask("Message >")
+        if msg =~ /^quit|^exit/
           break
         end
-        input = "[#{@user_name}]" + input
-
-        @channel.send(input)
-
-      rescue Exception => e
-        puts e.message
-        puts e.backtrace
+        msg = "[#{ENV['USER']}] #{msg}"
+        send_message(msg)
       end
     end
   end
-
 
 end
 
 
 
-SimpleChat.new.start
+SimpleChat.start

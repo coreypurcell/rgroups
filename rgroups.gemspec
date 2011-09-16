@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "rgroups/version"
+require_relative "lib/rgroups/version"
 
 Gem::Specification.new do |s|
   s.name        = "rgroups"
@@ -11,13 +10,13 @@ Gem::Specification.new do |s|
   s.summary     = %q{A Ruby wrapper for the JGroups Java Toolkit}
   s.description = %q{Using JRuby to provide a ruby interface to the JGroups toolkit.}
 
-  s.rubyforge_project = "rgroups"
+  s.required_ruby_version = ">= 1.9.2"
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  s.files  = Dir.glob("lib/**/*")
+  s.files  += %w(README.md LICENSE rgroups.gemspec)
+
+  s.require_path = "lib"
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
+  s.add_development_dependency "rake"
 end
