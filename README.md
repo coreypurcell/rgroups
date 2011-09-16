@@ -16,26 +16,39 @@ for information on how to run without a network.
 Let's see some code:
     
     # connect to the multicast cluster
-    RGroups::Channel.connect 'MyCluster' do
+    RGroups::Channel.connect 'MyCluster' do |ch|
 
       # set a callback to receive messages
-      receiver do |message|
+      ch.receiver do |message|
         puts "#{message.source}: #{message}"
       end
 
 
       # sending a message
-      send_message('Howdy')
-      send_message('Hi', {:source => '192.168.1.1', 
+      ch.send_message('Howdy')
+      ch.send_message('Hi', {:source => '192.168.1.1', 
                           :destination => '192.168.1.100'})
 
       # you can actually send any java object
-      send_message([1,2,3].to_java)
+      ch.send_message([1,2,3].to_java)
 
       # Don't forget to handle it on receive
       # message.data.to_a
-    end
 
+    end # channel closed at the end of the block
+
+Second Style allows you to send messages outside of the initial block
+
+    channel = RGroups::Channel.bind 'AnotherCluster' do |ch|
+      ch.receiver do |message|
+        puts message
+      end
+    end # this block will NOT close the channel
+
+    channel.send_message("TESTING")
+
+    # make sure you close the channel
+    channel.close
 
 Check the examples to see an application using the library
  
