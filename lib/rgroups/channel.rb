@@ -12,13 +12,24 @@ module RGroups
 
     def self.connect(cluster, &blk)
       channel = Channel.new
+      channel.connect_and_close(cluster, &blk)
+    end
+
+    def self.bind(cluster, &blk)
+      channel = Channel.new
       channel.connect(cluster, &blk)
     end
 
     def connect(cluster, &blk)
       @jchannel.connect(cluster)
-      instance_exec(&blk)
-      @jchannel.close
+      yield self
+      self
+    end
+
+    def connect_and_close(cluster, &blk)
+      @jchannel.connect(cluster)
+      yield self
+      close
     end
 
     def receiver(&blk)
@@ -28,6 +39,10 @@ module RGroups
     def send_message(msg, options={})
       message = Message.new(msg, options)
       @jchannel.send(message.jmessage)
+    end
+
+    def close
+      @jchannel.close
     end
 
   end

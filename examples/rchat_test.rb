@@ -12,8 +12,8 @@ end
 class SimpleChat
 
   def self.start
-    RGroups::Channel.connect('ChatCluster') do
-      receiver do |message|
+    RGroups::Channel.connect('ChatCluster') do |ch|
+      ch.receiver do |message|
         line = "#{message.source}: #{message}"
         puts line
       end
@@ -26,7 +26,7 @@ class SimpleChat
           break
         end
         msg = "[#{ENV['USER']}] #{msg}"
-        send_message(msg)
+        ch.send_message(msg)
       end
     end
   end

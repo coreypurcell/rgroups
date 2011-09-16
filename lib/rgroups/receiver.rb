@@ -15,7 +15,8 @@ module RGroups
     end
 
     def receive(jmessage)
-      msg = Message.from_jmessage(jemssage)
+      msg = Message.new(jmessage.get_object, {:source => jmessage.get_src,
+                         :destination => jmessage.get_dest})
       @blk.call(msg)
     end
 

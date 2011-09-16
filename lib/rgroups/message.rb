@@ -4,20 +4,12 @@
 module RGroups
   class Message
 
-    attr_accessor :jmessage
+    attr_reader :jmessage
 
     def initialize(message=nil, options={})
-      if message.kind_of? org.jgroups.Message
-        @jmessage = message
-      else
         @jmessage = org.jgroups.Message.new(options[:destination],
                                             options[:source],
                                             message)
-      end
-    end
-
-    def self.from_jmessage(jmessage)
-      self.new.jmessage = jmessage
     end
 
     def source
