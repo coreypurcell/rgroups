@@ -14,10 +14,10 @@ Gem::Specification.new do |s|
 
   s.files  = Dir.glob("lib/**/*")
   s.files  += %w(README.md LICENSE rgroups.gemspec)
+  s.files  += %w(vendor/jgroups-2.12.1.Final.jar)
 
   s.require_path = "lib"
 
-  # specify any dependencies here; for example:
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
 end
