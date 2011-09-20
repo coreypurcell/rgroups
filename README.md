@@ -59,6 +59,9 @@ for information on how to run without a network.
     # run an example
     jruby --1.9 examples/rchat_test.rb
 
+## Running the Tests
+
+    bundle install && rake
 
 #### Features I'd like to add:
 
