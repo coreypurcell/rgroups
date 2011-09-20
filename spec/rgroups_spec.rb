@@ -12,7 +12,7 @@ describe RGroups do
     end
 
   end
-  
+
   subject { @msg }
 
   its(:to_s) { should == "TEST ME" }
