@@ -1,6 +1,6 @@
-require_relative '../../lib/rgroups'
+require 'rgroups'
 describe RGroups do
-  
+
   before(:all) do
     @msg = ""
     RGroups::Channel.connect 'TestCluster' do |ch|
@@ -13,12 +13,10 @@ describe RGroups do
 
   end
   
-  it "receives a send message" do
-    @msg.to_s.should == "TEST ME"
-  end
+  subject { @msg }
 
-  it "sets the source for the message" do
-    @msg.source.should_not be_nil
-  end
+  its(:to_s) { should == "TEST ME" }
+
+  its(:source) { should_not be_nil }
 end
 
