@@ -50,10 +50,6 @@ for information on how to run without a network.
     # make sure you close the channel
     channel.close
 
-## Running the tests
-
-    bundle install && rake
-
 ### Check the examples to see an application using the library
  
     # run an example
