@@ -13,6 +13,7 @@ module RGroups
     def self.bind(cluster, &blk)
       channel = Channel.new
       channel.connect(cluster, &blk)
+      channel
     end
 
     def self.connect(cluster, &blk)
@@ -23,7 +24,6 @@ module RGroups
     def connect(cluster)
       @jchannel.connect(cluster)
       yield self
-      self
     end
 
     def receiver(&blk)
