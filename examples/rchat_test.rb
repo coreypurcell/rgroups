@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift './lib'
-require 'rgroups'
+require_relative '../lib/rgroups'
 begin
   require 'ffi-ncurses'
   require 'highline/import'
@@ -21,7 +20,7 @@ class SimpleChat
       say("Welcome to SimpleChat")
 
       loop do
-        msg = ask("Message >")
+        msg = ask("Message > ")
         if msg =~ /^quit|^exit/
           break
         end

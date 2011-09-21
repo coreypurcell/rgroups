@@ -5,4 +5,13 @@ require_relative "rgroups/message"
 require_relative "rgroups/receiver"
 
 require 'logger'
-require_relative 'rgroups/logger'
+
+module RGroups
+  class << self
+    def logger
+      @logger ||= Logger.new(STDOUT)
+    end
+
+    attr_writer :logger
+  end
+end

@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift './lib'
-require 'rgroups'
+require_relative '../lib/rgroups'
 
 # Using this style will automatically close the channel
 # when it reaches the end of the connect block
