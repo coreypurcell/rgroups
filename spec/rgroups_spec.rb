@@ -1,22 +1,31 @@
+require 'java'
 require 'rgroups'
+
 describe RGroups do
 
-  before(:all) do
-    @msg = ""
-    RGroups::Channel.connect 'TestCluster' do |ch|
-      ch.receiver do |message|
-       @msg = message
+  context "when sending messages to the cluster" do
+
+    before(:all) do
+      @msg = ""
+      RGroups::Channel.connect 'TestCluster' do |ch|
+        ch.receiver do |message|
+         @msg = message
+        end
+
+        ch.send_message("TEST ME")
       end
 
-      ch.send_message "TEST ME"
+    end
+
+    it "receives the message's object" do
+      @msg.to_s.should == "TEST ME"
+    end
+
+
+    it "receives the message from a source" do
+      @msg.source.should_not be_nil
     end
 
   end
-
-  subject { @msg }
-
-  its(:to_s) { should == "TEST ME" }
-
-  its(:source) { should_not be_nil }
 end
 

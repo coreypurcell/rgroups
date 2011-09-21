@@ -6,6 +6,3 @@ require_relative "rgroups/receiver"
 
 require 'logger'
 require_relative 'rgroups/logger'
-
-module RGroups
-end
